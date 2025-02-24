@@ -111,7 +111,7 @@ app.post('/visits', async (req, res) => {
 
 // Iniciar el servidor
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3050;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
@@ -156,9 +156,93 @@ node server.js
 
 Paso 9: Probar la app
 
-Abre el navegador y ve a http://localhost:3000
+Abre el navegador y ve a http://localhost:3050
 Presiona el botón para incrementar el contador de visitas.
 Revisa la base de datos para ver cómo se actualiza el conteo.
+
+Ejecutando las pruebas ⚙️
+
+Paso 1: Preparar la aplicacion
+
+Crear un DOCKERFILE
+
+![image](https://github.com/user-attachments/assets/6481c44a-5203-417e-b74b-9226fc679648)
+
+Paso 2: Construir y probar la imagen Docker
+
+docker build -t mi-app-node .
+
+docker run -p 3000:3000 --env-file .env mi-app-node
+
+Paso 3: Crear los archivos de configuración para Kubernetes
+3.1 Desplegar MySQL en Kubernetes
+Crear mysql-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_ROOT_PASSWORD
+        ports:
+        - containerPort: 3306
+
+
+3.2 Desplegar la aplicación Node.js
+Crear app-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aplicacion
+spec:
+  replicas: 2  # Número de instancias
+  selector:
+    matchLabels:
+      app: aplicacion
+  template:
+    metadata:
+      labels:
+        app: aplicacion
+    spec:
+      containers:
+      - name: aplicacion
+        image: aplicacion:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3050
+        envFrom:
+        - configMapRef:
+            name: aplicacion-config
+        - secretRef:
+            name: aplicacion-secret
+            
+Paso 4: Desplegar en Kubernetes
+4.1 Aplicar los archivos de configuración
+
+kubectl apply -f mysql-deployment.yaml
+kubectl apply -f app-deployment.yaml
+
+Paso 5: Acceder a la aplicación
+
+kubectl get svc mi-app-service
 
 Construido con 🛠️
 
