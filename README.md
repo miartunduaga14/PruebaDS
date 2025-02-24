@@ -3,11 +3,13 @@
 Este código es una aplicación Node.js con Express y MySQL, que maneja un sistema de conteo de visitas con almacenamiento en una base de datos.
 
 Comenzando 🚀
+
 Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas.
 
 Mira Deployment para conocer como desplegar el proyecto.
 
 Pre-requisitos 📋
+
 - [Node.js](https://nodejs.org/)
 - [MySQL](https://www.mysql.com/) (o un contenedor con MySQL)
 - [Docker](https://www.docker.com/) (opcional, si usas contenedores)
@@ -33,9 +35,11 @@ npm init -y
 
 
 Paso 3: Instalar dependencias
+
 npm install express ejs body-parser mysql2 dotenv
 
 Paso 4: Crear la estructura del proyecto
+
 ![image](https://github.com/user-attachments/assets/124bd781-ae01-4985-9d85-8901d140edda)
 
 Paso 5: Configurar el servidor en server.js
@@ -115,6 +119,7 @@ CREATE TABLE visits (
 );
 
 Paso 7: Crear la vista en views/index.ejs
+
 Crea la carpeta views y dentro el archivo index.ejs:
 
 html
@@ -147,6 +152,7 @@ Presiona el botón para incrementar el contador de visitas.
 Revisa la base de datos para ver cómo se actualiza el conteo.
 
 Construido con 🛠️
+
 - Vscode
 - docker Desktop
 - NodeJS -> backend
@@ -155,4 +161,5 @@ Construido con 🛠️
 - MySQL -> BD
 
 Autores ✒️
+
 Michael Artunduaga Parra
