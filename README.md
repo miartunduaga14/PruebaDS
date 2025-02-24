@@ -47,29 +47,36 @@ Paso 5: Configurar el servidor en server.js
 Crea y abre server.js, luego copia este código:
 
 require('dotenv').config();
+
 const express = require('express');
+
 const mysql = require('mysql2');
+
 const bodyParser = require('body-parser');
+
 
 const app = express();
 
 // Configuración de la base de datos
+
 const pool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'test',
+    password: process.env.DB_PASSWORD || 'password',
+    database: process.env.DB_NAME || 'prueba',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
 });
 
 // Middleware
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));  // Para servir archivos estáticos
 app.set('view engine', 'ejs');
 
 // Ruta principal
+
 app.get('/', async (req, res) => {
     try {
         const [results] = await pool.promise().query('SELECT * FROM visits LIMIT 1');
@@ -83,6 +90,7 @@ app.get('/', async (req, res) => {
 });
 
 // Ruta para incrementar visitas
+
 app.post('/visits', async (req, res) => {
     try {
         const [results] = await pool.promise().query('SELECT * FROM visits');
@@ -102,6 +110,7 @@ app.post('/visits', async (req, res) => {
 });
 
 // Iniciar el servidor
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
