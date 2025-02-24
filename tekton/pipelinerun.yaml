@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: run-ci-cd
+spec:
+  pipelineRef:
+    name: ci-cd-pipeline
+  params:
+    - name: IMAGE
+      value: docker.io/TU_USUARIO/mi-api:latest  # O localhost:5000/mi-api:latest
+  workspaces:
+    - name: shared-workspace
+      persistentVolumeClaim:
+        claimName: my-pvc

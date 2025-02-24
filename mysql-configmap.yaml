@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  MYSQL_USER: "root"
+  MYSQL_DATABASE: "prueba"
+  MYSQL_HOST: "mysql-service"
+  MYSQL_PORT: "3306"

@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: deploy
+spec:
+  params:
+    - name: IMAGE
+      type: string
+  workspaces:
+    - name: source
+  steps:
+    - name: apply-k8s
+      image: bitnami/kubectl:latest
+      script: |
+        #!/bin/sh
+        kubectl apply -f $(workspaces.source.path)/deployment.yaml
+        kubectl apply -f $(workspaces.source.path)/service.yaml

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aplicacion-config
+data:
+  DB_HOST: "mysql-service"
+  DB_NAME: "prueba"
+  DB_PORT: "3306"
